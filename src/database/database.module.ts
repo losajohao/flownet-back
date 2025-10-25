@@ -7,14 +7,35 @@ const databaseProvider = {
   provide: PG_CONNECTION,
   useFactory: (): Pool => {
     const pool = new Pool({
-      host: process.env.DB_HOST || 'localhost',
-      port: parseInt(process.env.DB_PORT || '5432', 10),
-      database: process.env.DB_NAME,
-      user: process.env.DB_USER,
-      password: process.env.DB_PASSWORD,
-      max: 20,
-      idleTimeoutMillis: 30000,
-      connectionTimeoutMillis: 2000,
+      // Connection string (URL completa de la base de datos)
+      connectionString: process.env.DATABASE_URL,
+      
+      // Configuración de SSL (requerido por Supabase)
+      ssl: {
+        rejectUnauthorized: false,
+      },
+      
+      // Connection pooling optimizado para serverless con Supabase
+      max: 10, // Máximo de conexiones en el pool
+      min: 2, // Mínimo de conexiones activas
+      idleTimeoutMillis: 10000, // Cerrar conexiones inactivas después de 10s
+      connectionTimeoutMillis: 5000, // Timeout para establecer conexión
+      allowExitOnIdle: true, // Permite que el proceso termine si todas las conexiones están inactivas
+    });
+
+    // Manejo de errores del pool
+    pool.on('error', (err) => {
+      console.error('❌ Error inesperado en el pool de conexiones:', err);
+    });
+
+    // Log cuando se conecta (útil para debugging)
+    pool.on('connect', () => {
+      console.log('✅ Nueva conexión establecida en el pool de Supabase');
+    });
+
+    // Log cuando se remueve una conexión
+    pool.on('remove', () => {
+      console.log('🔄 Conexión removida del pool');
     });
 
     return pool;
