@@ -9,7 +9,8 @@ Flownet es un sistema backend modular para la gestión de productos, categorías
 ## 🚀 Características
 
 - ✅ Arquitectura modular con NestJS
-- ✅ Conexión directa a PostgreSQL
+- ✅ Conexión optimizada a PostgreSQL/Supabase con serial pooling
+- ✅ Configuración lista para Vercel (serverless)
 - ✅ Validación de datos con class-validator
 - ✅ Kardex valorizado con cálculo de saldos
 - ✅ Gestión de productos y categorías
@@ -57,6 +58,8 @@ npm install -D @types/pg
 3. **Configurar variables de entorno**
 
 Crea un archivo `.env` en la raíz del proyecto:
+
+**Para desarrollo local:**
 ```env
 # PostgreSQL Configuration
 DB_HOST=localhost
@@ -69,6 +72,16 @@ DB_PASSWORD=tu_contraseña
 PORT=3000
 NODE_ENV=development
 ```
+
+**Para Vercel con Supabase:**
+```env
+# Usar Connection Pooling URL (recomendado)
+DATABASE_URL=postgresql://postgres.xxxxx:[PASSWORD]@aws-0-us-east-1.pooler.supabase.com:6543/postgres
+NODE_ENV=production
+PORT=3000
+```
+
+> 📘 **Nota:** Para configurar Vercel, consulta [VERCEL_CONFIG.md](./VERCEL_CONFIG.md)
 
 4. **Configurar la base de datos**
 
