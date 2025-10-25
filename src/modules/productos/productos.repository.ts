@@ -11,7 +11,7 @@ export class ProductosRepository {
 
   async findAll(): Promise<Producto[]> {
     const result = await this.pool.query(
-      'SELECT * FROM productos ORDER BY created_at DESC',
+      'SELECT * FROM productos ORDER BY id DESC',
     );
     return result.rows;
   }
