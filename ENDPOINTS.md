@@ -1,5 +1,37 @@
 # 📡 Documentación de Endpoints - Flownet Backend
 
+## 🔐 Módulo de Autenticación
+
+### `POST /api/auth/login`
+Inicia sesión con email y contraseña.
+
+**Body:**
+```json
+{
+  "email": "usuario@ejemplo.com",
+  "pwd": "contraseña123"
+}
+```
+
+**Respuesta exitosa (200):**
+```json
+{
+  "id": 1,
+  "nombre": "Juan Pérez",
+  "email": "usuario@ejemplo.com",
+  "negocio_id": 1,
+  "message": "Inicio de sesión exitoso"
+}
+```
+
+**Errores:**
+- `401 Unauthorized`: Credenciales inválidas
+- `400 Bad Request`: Datos de entrada inválidos
+
+**Nota:** Para crear usuarios, usar el endpoint `POST /api/usuarios` del módulo de Usuarios.
+
+---
+
 ## 🏢 Módulo de Negocios
 
 ### `GET /negocios`
