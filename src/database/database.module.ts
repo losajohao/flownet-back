@@ -38,7 +38,12 @@ const databaseProvider = {
 
     // Manejo de errores del pool
     pool.on('error', (err) => {
-      console.error('Error inesperado en el pool de conexiones:', err);
+      console.error('❌ Error inesperado en el pool de conexiones:', err);
+    });
+
+    // Log de conexión exitosa
+    pool.on('connect', () => {
+      console.log('✅ Conexión a la base de datos establecida');
     });
 
     return pool;

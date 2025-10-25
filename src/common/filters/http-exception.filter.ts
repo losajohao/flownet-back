@@ -17,6 +17,9 @@ export class HttpExceptionFilter implements ExceptionFilter {
     let message = 'Error interno del servidor';
     let error = 'Internal Server Error';
 
+    // Log del error completo para debugging
+    console.error('❌ Exception caught:', exception);
+
     if (exception instanceof HttpException) {
       status = exception.getStatus();
       const exceptionResponse = exception.getResponse();
@@ -29,6 +32,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
       }
     } else if (exception instanceof Error) {
       message = exception.message;
+      console.error('❌ Error stack:', exception.stack);
     }
 
     response.status(status).json({
