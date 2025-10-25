@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { DatabaseModule } from './database/database.module';
+import { AuthModule } from './modules/auth/auth.module';
 import { UsuariosModule } from './modules/usuarios/usuarios.module';
 import { NegociosModule } from './modules/negocios/negocios.module';
 import { CategoriasModule } from './modules/categorias/categorias.module';
@@ -17,6 +18,7 @@ import { AhorrosModule } from './modules/ahorros/ahorros.module';
       envFilePath: '.env',
     }),
     DatabaseModule,
+    AuthModule,
     UsuariosModule,
     NegociosModule,
     CategoriasModule,
