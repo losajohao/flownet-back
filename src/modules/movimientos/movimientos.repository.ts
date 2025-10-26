@@ -66,6 +66,33 @@ export class MovimientosRepository {
     return result.rows[0];
   }
 
+  async createMultipleMovimientos(dtos: CreateMovimientoDto[]): Promise<Movimiento[]> {
+    const client = await this.pool.connect();
+    try {
+      await client.query('BEGIN');
+      
+      const movimientos: Movimiento[] = [];
+      
+      for (const dto of dtos) {
+        const result = await client.query(
+          `INSERT INTO movimientos (negocio_id, producto_id, descripcion, tipo_movimiento, cantidad, precio_unitario, monto)
+           VALUES ($1, $2, $3, $4, $5, $6, $7)
+           RETURNING *`,
+          [dto.negocio_id, dto.producto_id, dto.descripcion, dto.tipo_movimiento, dto.cantidad, dto.precio_unitario, dto.monto],
+        );
+        movimientos.push(result.rows[0]);
+      }
+      
+      await client.query('COMMIT');
+      return movimientos;
+    } catch (error) {
+      await client.query('ROLLBACK');
+      throw error;
+    } finally {
+      client.release();
+    }
+  }
+
   async updateMovimiento(id: number, dto: UpdateMovimientoDto): Promise<Movimiento> {
     const fields: string[] = [];
     const values: any[] = [];
