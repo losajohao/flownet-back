@@ -37,6 +37,10 @@ export class MovimientosService {
     return this.movimientosRepository.createMovimiento(dto);
   }
 
+  async createMultiple(dtos: CreateMovimientoDto[]): Promise<Movimiento[]> {
+    return this.movimientosRepository.createMultipleMovimientos(dtos);
+  }
+
   async update(id: number, dto: UpdateMovimientoDto): Promise<Movimiento> {
     await this.findById(id);
     return this.movimientosRepository.updateMovimiento(id, dto);

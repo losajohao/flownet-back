@@ -11,6 +11,7 @@ import {
 } from '@nestjs/common';
 import { MovimientosService } from './movimientos.service';
 import { CreateMovimientoDto } from './dto/create-movimiento.dto';
+import { CreateMovimientosArrayDto } from './dto/create-movimientos-array.dto';
 import { UpdateMovimientoDto } from './dto/update-movimiento.dto';
 
 @Controller('movimientos')
@@ -68,8 +69,8 @@ export class MovimientosController {
   }
 
   @Post()
-  create(@Body() createMovimientoDto: CreateMovimientoDto) {
-    return this.movimientosService.create(createMovimientoDto);
+  create(@Body() createMovimientosArrayDto: CreateMovimientosArrayDto) {
+    return this.movimientosService.createMultiple(createMovimientosArrayDto.movimientos);
   }
 
   @Put(':id')
